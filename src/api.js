@@ -8,6 +8,7 @@ app.use('/', router.get('/', (req,res) => {
     res.status(200).send("<h1>API - CHAT</h1>")
 }))
 
+//informações sobre a API
 app.use('/sobre', router.get('/sobre', (req, res, next) =>{
     res.status(200).send({
         "name": "chat-api",
@@ -16,10 +17,11 @@ app.use('/sobre', router.get('/sobre', (req, res, next) =>{
     })
 }));
 
+//rota para listar as salas
 app.use('/salas', router.get('/salas', (req, res, next) => {
     const salaController = require("./controllers/salaController");
     let resp=salaController.get();
     res.status(200).send(resp);
-}))
+}));
 
 module.exports=app;

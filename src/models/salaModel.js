@@ -1,4 +1,11 @@
+//Atualizando salaModel.js, para utilizar recursos de db.js
+const db = require('./db');
 function listarSalas() {
+    return db.findAll("salas");
+}
+
+
+/*function listarSalas() {
     return [
         {
             "_id": {
@@ -40,6 +47,8 @@ function listarSalas() {
             ]
         }
     ]
-}
+}*/
+
+
 
 module.exports = {listarSalas};

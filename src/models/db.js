@@ -1,3 +1,4 @@
+//arquivo de conexão com a base de dados
 const { MongoClient, ObjectId} = require("mongodb");
 
 let singleton;
@@ -13,9 +14,10 @@ async function connect() {
 
 }
 
-async function findAll(colection) {
+//função para retornar todos os registros de uma coleção dada
+async function findAll(collection) {
     const db = await connect();
-    return db.collection(colection).find().toArray();
+    return db.collection(collection).findAll().toArray();
 } 
-
+//Exportando a função para que possa ser utilizada externamente
 module.exports = {findAll}
