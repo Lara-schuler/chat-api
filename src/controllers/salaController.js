@@ -1,7 +1,8 @@
 //ajustar o método get no salaController.js
 const salaModel = require('../models/salaModel');
 exports.get=async()=>{
-    return await salaModel.listarSalas();
+    let salas =await salaModel.listarSalas();
+    return salas;
 }
 
 

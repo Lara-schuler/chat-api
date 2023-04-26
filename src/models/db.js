@@ -17,7 +17,14 @@ async function connect() {
 //função para retornar todos os registros de uma coleção dada
 async function findAll(collection) {
     const db = await connect();
-    return db.collection(collection).findAll().toArray();
+    let resp = await db.collection(collection).find().toArray();
+    return resp; 
 } 
+//método responsável pela criação de um novo documento
+async function insertOne(collection, objeto){
+    const db = await connect();
+    return db.collection(collection).insertOne(objeto);
+}
+
 //Exportando a função para que possa ser utilizada externamente
-module.exports = {findAll}
+module.exports = {findAll, insertOne}
