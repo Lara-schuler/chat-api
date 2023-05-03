@@ -18,10 +18,11 @@ app.use('/sobre', router.get('/sobre', (req, res, next) =>{
 }));
 
 //rota para listar as salas
-app.use('/salas', router.get('/salas', async (req, res, next) => {
+app.use('/salas', router.get('/salas', checktoken(),  async (req, res, next) => {
     const salaController = require("./controllers/salaController");
-    let resp=await salaController.get();
+    let resp = await salaController.get(req.user.id);
     res.status(200).send(resp);
+    
 }));
 
 // rota para entrar no CHAT
