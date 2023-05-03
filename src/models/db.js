@@ -28,3 +28,4 @@ async function insertOne(collection, objeto){
 
 //Exportando a função para que possa ser utilizada externamente
 module.exports = {findAll, insertOne}
+
