@@ -1,7 +1,7 @@
 {
   "name": "chat-api",
   "version": "1.0.0",
-  "description": "��#\u0000 \u0000c\u0000h\u0000a\u0000t\u0000-\u0000a\u0000p\u0000i\u0000\r\u0000 \u0000",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node ./bin/server.js",
