@@ -20,7 +20,7 @@ app.use('/sobre', router.get('/sobre', (req, res, next) => {
 //rota para listar as salas
 app.use('/salas', router.get('/salas', async (req, res, next) => {
     if (await
-        TokenExpiredError.checkToken(req.headers.token, req.headers.iduser, req.headers.nick)
+        token.checkToken(req.headers.token, req.headers.iduser, req.headers.nick)
     ) {
         //const salaController = require("./controllers/salaController");
         let resp = await salaController.get();
@@ -45,7 +45,7 @@ app.use('/sala/entrar', router.put('/sala/entrar', async (req, res) => {
 app.use('/sala/mensagem/', router.post('/sala/mensagem', async (req, res) => {
     if(!token.checkToken(req.headers.token, req.headers.iduser, req.headers.nick))
     return false;
-    let resp = await salaController.enviarMensagem(req.headers.nick, req.body.msg, req.body.idsala);
+    let resp = await salaController.enviarMensagem(req.headers.nick, req.body.msg, req.body.idSala);
     res.status(200).send(resp);
 }))
 

@@ -15,4 +15,4 @@ let alterarUsuario = async (user)=>{
     return await db.updateOne('usuarios', user, {_id:user._id});
 }
 
-module.exports = {registrarUsuario,buscarUsuario, alterarUsuario}
+module.exports = {registrarUsuario, buscarUsuario, alterarUsuario}

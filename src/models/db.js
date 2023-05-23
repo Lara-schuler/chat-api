@@ -41,5 +41,5 @@ let updateOne = async (collection, object, param)=>{
 }
 
 //Exportando a função para que possa ser utilizada externamente
-module.exports = { findAll, insertOne, findOne }
+module.exports = { findAll, insertOne, findOne, updateOne }
 

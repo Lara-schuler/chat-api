@@ -1,5 +1,5 @@
 //serviço para geração e validação de tokens
-const jtw = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
 const checktoken = async (token, id, key) => {
     try {
@@ -14,7 +14,7 @@ const checktoken = async (token, id, key) => {
 const setToken = async (id, key) => {
     console.log(id);
     if (id) {
-        return jtw.sign({ id }, key, { expiresIn: 28800 });
+        return jwt.sign({ id }, key, { expiresIn: 28800 });
     }
     return false;
 }
