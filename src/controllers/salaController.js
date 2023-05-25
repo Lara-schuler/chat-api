@@ -7,9 +7,13 @@ exports.get = async(req, res)=>{
 }
 
 exports.entrar = async (iduser, idsala)=>{
+    console.log("------")
+    console.log(iduser);
+   console.log("---------------");
     const sala = await salaModel.buscarSala(idsala);
     let usuarioModel = require('../models/usuarioModel');
     let user = await usuarioModel.buscarUsuario(iduser);
+    console.log(user);
     user.sala = {_id:sala._id, nome:sala.nome, tipo:sala.tipo};
     if(await usuarioModel.alterarUsuario(user)) {
         return {msg:'Ok', timestamp:timestamp=Date.now()};
@@ -20,9 +24,12 @@ exports.entrar = async (iduser, idsala)=>{
 
 exports.enviarMensagem = async (nick, msg, idsala)=>{
     const sala = await salaModel.buscarSala(idsala);
+    console.log(sala)
+
     if(!sala.msgs){
         sala.msgs=[];
     }
+    
     timestamp=Date.now()
     sala.msgs.push(
         {

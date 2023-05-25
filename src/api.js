@@ -1,4 +1,6 @@
 const express = require("express");
+const token = require('./util/token')
+const salaController = require('./controllers/salaController')
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -17,12 +19,18 @@ app.use('/sobre', router.get('/sobre', (req, res, next) => {
     })
 }));
 
+// rota para entrar no CHAT
+app.use('/entrar', router.post('/entrar', async (req, res, next) => {
+    const usuarioController = require('./controllers/usuarioController');
+    let resp = await usuarioController.entrar(req.body.nick);
+    res.status(200).send(resp);
+}));
+
 //rota para listar as salas
 app.use('/salas', router.get('/salas', async (req, res, next) => {
     if (await
-        token.checkToken(req.headers.token, req.headers.iduser, req.headers.nick)
+        token.checktoken(req.headers.token, req.headers.iduser, req.headers.nick)
     ) {
-        //const salaController = require("./controllers/salaController");
         let resp = await salaController.get();
         res.status(200).send(resp);
     } else{
@@ -34,16 +42,18 @@ app.use('/salas', router.get('/salas', async (req, res, next) => {
 
 // rota para entrar na sala
 app.use('/sala/entrar', router.put('/sala/entrar', async (req, res) => {
-    if(!token.checkToken(req.headers.token, req.headers.iduser, req.headers.nick))
+    if(!token.checktoken(req.headers.token, req.headers.iduser, req.headers.nick))
     return false;
-    let resp = await salaController.entrar(req.headers.iduser, req.query.idsala);
+
+    console.log(req.headers);
+    let resp = await salaController.entrar(req.headers.iduser, req.query.idSala);
     res.status(200).send(resp);
 
 }))
 
 // enviar mensagens
 app.use('/sala/mensagem/', router.post('/sala/mensagem', async (req, res) => {
-    if(!token.checkToken(req.headers.token, req.headers.iduser, req.headers.nick))
+    if(!token.checktoken(req.headers.token, req.headers.iduser, req.headers.nick))
     return false;
     let resp = await salaController.enviarMensagem(req.headers.nick, req.body.msg, req.body.idSala);
     res.status(200).send(resp);
@@ -51,18 +61,13 @@ app.use('/sala/mensagem/', router.post('/sala/mensagem', async (req, res) => {
 
 // listar mensagens
 app.use('/sala/mensagens/', router.get('/sala/mensagens', async (req, res)=>{
-    if(!token.checkToken(req.headers.token, req.headers.iduser, req.headers.nick))
+    if(!token.checktoken(req.headers.token, req.headers.iduser, req.headers.nick))
     return false;
-    let resp = await salaController.buscarMensagens(req.query.idsala, req.query.timestamp);
+    let resp = await salaController.buscarMensagens(req.query.idSala, req.query.timestamp);
     res.status(200).send(resp);
 }))
 
-// rota para entrar no CHAT
-app.use('/entrar', router.post('/entrar', async (req, res, next) => {
-    const usuarioController = require('./controllers/usuarioController');
-    let resp = await usuarioController.entrar(req.body.nick);
-    res.status(200).send(resp);
-}));
+
 
 
 
