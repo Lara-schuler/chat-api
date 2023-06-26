@@ -28,7 +28,7 @@ let insertOne = async (collection, objeto) => {
 
 let findOne = async (collection, _id) => {
     const db = await connect();
-    let obj = await db.collection(collection).find({'_id': new ObjectId(_id) }).toArray();
+    let obj = await db.collection(collection).find({'_id':new ObjectId(_id)}).toArray();
     console.log(obj);
     if (obj)
         return obj[0];

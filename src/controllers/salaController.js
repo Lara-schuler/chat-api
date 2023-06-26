@@ -39,7 +39,7 @@ exports.enviarMensagem = async (nick, msg, idsala)=>{
         }
     )
     let resp = await salaModel.atualizarMensagens(sala);
-    return {'msg':'ok', 'timestamp':timestamp};
+    return {'msg':'Mensagem enviada com sucesso!', 'timestamp':timestamp};
 }
 
 exports.buscarMensagens = async (idsala, timestamp)=>{
@@ -49,3 +49,21 @@ exports.buscarMensagens = async (idsala, timestamp)=>{
         'msgs': mensagens
     };
 }
+
+exports.sairSala = async(iduser, idsala) => {
+    let usuarioModel = require('../models/usuarioModel');
+    let user = await usuarioModel.buscarUsuario(iduser);
+    let resp= await this.enviarMensagem(user.nick, 'saiu da sala', idsala)
+    delete user.sala;
+    if(await usuarioModel.alterarUsuario(user)) {
+        user= await usuarioModel.buscarUsuario(iduser);
+        return {msg:'Ok', timestamp:timestamp=Date.now()};
+    }
+    
+}
+
+exports.criarSala = async (nome, tipo)=>{
+    let sala = await salaModel.criarSala(nome, tipo);
+    return sala;
+} 
+  

@@ -11,3 +11,16 @@ exports.entrar = async(nick) => {
         }
     }
 }
+
+exports.sairChat = async (nick) => {
+    // Lógica para tratar a saída do usuário do chat
+    // atualizar o status do usuário, notificar outros participantes...
+    // Exemplo: Remover o nick da lista de usuários ativos
+  /*const usuariosAtivos = [...]; // lista de usuários ativos
+  const index = usuariosAtivos.indexOf(nick);
+  if (index > -1) {
+    usuariosAtivos.splice(index, 1);
+  }*/
+  
+    return `O usuário ${nick} saiu do chat.`;
+};

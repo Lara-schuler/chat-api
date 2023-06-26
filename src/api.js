@@ -33,8 +33,8 @@ app.use('/salas', router.get('/salas', async (req, res, next) => {
     ) {
         let resp = await salaController.get();
         res.status(200).send(resp);
-    } else{
-        res.status(400).send({msg:"Usuário não autorizado"})
+    } else {
+        res.status(400).send({ msg: "Usuário não autorizado" })
     }
 
 
@@ -42,33 +42,47 @@ app.use('/salas', router.get('/salas', async (req, res, next) => {
 
 // rota para entrar na sala
 app.use('/sala/entrar', router.put('/sala/entrar', async (req, res) => {
-    if(!token.checktoken(req.headers.token, req.headers.iduser, req.headers.nick))
-    return false;
+    if (!token.checktoken(req.headers.token, req.headers.iduser, req.headers.nick))
+        return false;
 
     console.log(req.headers);
-    let resp = await salaController.entrar(req.headers.iduser, req.query.idSala);
+    let resp = await salaController.entrar(req.headers.iduser, req.query.idsala);
     res.status(200).send(resp);
 
 }))
 
 // enviar mensagens
 app.use('/sala/mensagem/', router.post('/sala/mensagem', async (req, res) => {
-    if(!token.checktoken(req.headers.token, req.headers.iduser, req.headers.nick))
-    return false;
-    let resp = await salaController.enviarMensagem(req.headers.nick, req.body.msg, req.body.idSala);
+    if (!token.checktoken(req.headers.token, req.headers.iduser, req.headers.nick))
+        return false;
+    let resp = await salaController.enviarMensagem(req.headers.nick, req.body.msg, req.body.idsala);
     res.status(200).send(resp);
 }))
 
 // listar mensagens
-app.use('/sala/mensagens/', router.get('/sala/mensagens', async (req, res)=>{
-    if(!token.checktoken(req.headers.token, req.headers.iduser, req.headers.nick))
-    return false;
-    let resp = await salaController.buscarMensagens(req.query.idSala, req.query.timestamp);
+app.use('/sala/mensagens/', router.get('/sala/mensagens', async (req, res) => {
+    if (!token.checktoken(req.headers.token, req.headers.iduser, req.headers.nick))
+        return false;
+    let resp = await salaController.buscarMensagens(req.query.idsala, req.query.timestamp);
     res.status(200).send(resp);
 }))
 
+//sair da sala
+
+app.use('/sala/sair', router.put('/sala/sair', async (req, res) => {
+    if (!token.checktoken(req.headers.token, req.headers.iduser, req.headers.nick))
+        return false;
+    console.log(req.headers);
+    let resp = await salaController.sairSala(req.headers.iduser, req.query.idsala);
+    res.status(200).send(resp);
+}));
 
 
-
+// sair do chat
+app.use('/sair', router.delete('/sair', async (req, res, next) => {
+    const usuarioController = require('./controllers/usuarioController');
+    let resp = await usuarioController.sairChat(req.body.nick);
+    res.status(200).send(resp);
+}))
 
 module.exports = app;
