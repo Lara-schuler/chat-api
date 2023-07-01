@@ -41,6 +41,12 @@ let updateOne = async (collection, object, param)=>{
     return result;
 }
 
+let deleteOne = async (collection, _id)=>{
+    const db = await connect();
+    let result = await db.collection(collection).deleteOne({'_id':new ObjectId(_id)});
+    return result;
+}
+
 //Exportando a função para que possa ser utilizada externamente
-module.exports = { findAll, insertOne, findOne, updateOne }
+module.exports = { findAll, insertOne, findOne, updateOne, deleteOne }
 

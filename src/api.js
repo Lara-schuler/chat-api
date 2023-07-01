@@ -51,6 +51,20 @@ app.use('/sala/entrar', router.put('/sala/entrar', async (req, res) => {
 
 }))
 
+// criar sala
+app.use('/sala/criar', router.post('/sala/criar', async (req, res) => {
+    if (!token.checktoken(req.headers.token, req.headers.iduser, req.headers.nick))
+        return false;
+
+    // Extrair os dados necessários do corpo da requisição
+    const { nome, tipo } = req.body;
+
+    // Chamar o controlador para criar a sala
+    let resp = await salaController.criarSala(req.headers.iduser, nome, tipo);
+    res.status(200).send(resp);
+}))
+
+
 // enviar mensagens
 app.use('/sala/mensagem/', router.post('/sala/mensagem', async (req, res) => {
     if (!token.checktoken(req.headers.token, req.headers.iduser, req.headers.nick))
@@ -79,10 +93,14 @@ app.use('/sala/sair', router.put('/sala/sair', async (req, res) => {
 
 
 // sair do chat
-app.use('/sair', router.delete('/sair', async (req, res, next) => {
+app.use('/sair', router.put('/sair', async (req, res) => {
+    if (!token.checktoken(req.headers.token, req.headers.iduser, req.headers.nick))
+      return false;
+      
     const usuarioController = require('./controllers/usuarioController');
-    let resp = await usuarioController.sairChat(req.body.nick);
+    let resp = await usuarioController.sairChat(req.headers.iduser);
+    
     res.status(200).send(resp);
-}))
-
+  }));
+  
 module.exports = app;

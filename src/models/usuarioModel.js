@@ -15,7 +15,10 @@ let buscarUsuario = async (idUser)=>{
 let alterarUsuario = async (user)=>{
     return await db.updateOne('usuarios', user,{_id:user._id});
 }
+let excluirUsuario = async (idUser)=>{  
+    return await db.deleteOne('usuarios',idUser);   
+}
 
 // precisa de uma função para excluir o usuário depois que ele sai do chat?
 
-module.exports = {registrarUsuario, buscarUsuario, alterarUsuario}
+module.exports = {registrarUsuario, buscarUsuario, alterarUsuario, excluirUsuario}
