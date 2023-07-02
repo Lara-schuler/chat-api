@@ -5,6 +5,13 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// Configuração do cabeçalho CORS para permitir todas as origens
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*'); // Configurar a origem permitida, ou use o domínio específico da sua aplicação
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+  });
+
 const router = express.Router();
 app.use('/', router.get('/', (req, res) => {
     res.status(200).send("<h1>API - CHAT</h1>")
