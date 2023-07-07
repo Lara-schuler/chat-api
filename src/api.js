@@ -7,6 +7,7 @@ const corsOptions = {
     origin: '*', // Permitir todas as origens
     methods: '*', // Permitir todos os métodos HTTP
     allowedHeaders: '*', // Permitir todos os cabeçalhos
+    preflightContinue: true, // Permitir redirecionamento para solicitações preflight OPTIONS
 };
 
 app.use(cors(corsOptions));
