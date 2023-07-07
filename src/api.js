@@ -5,15 +5,16 @@ const salaController = require('./controllers/salaController')
 const app = express();
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*'); // Configurar a origem permitida, ou use o domínio específico da sua aplicação
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     next();
-  });
+});
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 const router = express.Router();
 app.use('/', router.get('/', (req, res) => {
-    res.status(200).send("<h1>API - CHAT</h1>") 
+    res.status(200).send("<h1>API - CHAT</h1>")
 }))
 
 //informações sobre a API
@@ -101,12 +102,12 @@ app.use('/sala/sair', router.put('/sala/sair', async (req, res) => {
 // sair do chat
 app.use('/sair', router.put('/sair', async (req, res) => {
     if (!token.checktoken(req.headers.token, req.headers.iduser, req.headers.nick))
-      return false;
-      
+        return false;
+
     const usuarioController = require('./controllers/usuarioController');
     let resp = await usuarioController.sairChat(req.headers.iduser);
-    
+
     res.status(200).send(resp);
-  }));
-  
+}));
+
 module.exports = app;
