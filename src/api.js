@@ -1,16 +1,18 @@
 const express = require("express");
-const cors = require("cors")
+//const cors = require("cors")
 const token = require('./util/token')
 const salaController = require('./controllers/salaController')
 const app = express();
-const corsOptions = {
-    origin: '*', // Permitir todas as origens
-    methods: '*', // Permitir todos os métodos HTTP
-    allowedHeaders: '*', // Permitir todos os cabeçalhos
-    preflightContinue: true, // Permitir redirecionamento para solicitações preflight OPTIONS
-};
-
-app.use(cors(corsOptions));
+app.use((req, res, next) =>{
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    if(req.method === "OPTIONS") {
+        res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+        return res.status(200).send({})
+    }
+    next(); 
+}
+)
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
